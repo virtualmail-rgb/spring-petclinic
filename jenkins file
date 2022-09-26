@@ -1,0 +1,6 @@
+node('free-script-11') {
+    stage(package) {git branch: 'main', url: 'https://github.com/virtualmail-rgb/spring-petclinic.git'}
+    stage(build) {sh '''mvn package
+'''}
+    stage(artifacts&Junittest) {archiveArtifacts artifacts: 'target/*.xml', followSymlinks: false, junit '**/surefire-reports/*.xml'}
+}
