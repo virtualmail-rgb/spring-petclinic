@@ -2,7 +2,7 @@ pipeline {
     agent { label 'free-script-11' }
     parameters {
         choice(name: 'Build-on-Branch', choices: ['main','maseter'], description: 'descrip for what is the branch')
-        string(name: 'BUILD_METHOD', defaultValue: 'package', description: 'type of build or package')
+        string(name: 'BUILD_GOAL', defaultValue: 'package', description: 'build action')
     }
     stages {
         stage ('mvn version') {
@@ -17,7 +17,7 @@ pipeline {
         }
         stage ('build') {
             steps {
-                sh "/usr/share/maven/bin/mvn ${params.BUILD_METHOD}"
+                sh "/usr/share/maven/bin/mvn ${params.BUILD_GOAL}"
             }
         }
     }
