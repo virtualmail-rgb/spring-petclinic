@@ -17,7 +17,7 @@ pipeline {
         }
         stage ('build') {
             steps {
-                sh "mvn ${params.BUILD_GOAL}"
+                sh "mvn package"
             }
         }
     }
