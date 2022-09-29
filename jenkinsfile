@@ -17,7 +17,7 @@ pipeline {
         }
         stage ('build') {
             steps {
-                sh "mvn ${params.Build method}"
+                sh "/usr/share/maven/bin/mvn ${params.Build method}"
             }
         }
     }
