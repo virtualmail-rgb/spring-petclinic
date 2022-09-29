@@ -2,7 +2,10 @@ pipeline {
     agent { label 'free-script-11' }
     parameters {
         choice(name: 'Build-on-Branch', choices: ['main','maseter'], description: 'descrip for what is the branch')
-        string(name: 'Build method', defaultvalue: 'package', description: 'type of build or package')
+        string(name: 'BUILD_METHOD', defaultvalue: 'package', description: 'type of build or package')
+    }
+    triggers {
+        pollscm(*****)
     }
     stages {
         stage ('mvn version') {
@@ -12,12 +15,12 @@ pipeline {
         }
         stage ('clone') {
             steps {
-                git url: 'https://github.com/virtualmail-rgb/spring-petclinic.git', branch: 'main'
+                git url: 'https://github.com/virtualmail-rgb/spring-petclinic.git', branch: "${params.Build-on-Branch}"
             }
         }
         stage ('build') {
             steps {
-                sh 'mvn package'
+                sh "mvn ${params.BUILD_METHOD}"
             }
         }
     }
