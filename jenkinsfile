@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'free-script-11' }
     parameters {
-        choice(name: 'Build-on-Branch', choices: ['main','maseter'], description: 'descrip for what is the branch')
+        choice(name: 'Build-on-Branch', choices: ['main','master'], description: 'descrip for what is the branch')
         string(name: 'BUILD_METHOD', defaultvalue: 'package', description: 'type of build or package')
     }
     triggers {
