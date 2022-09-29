@@ -12,12 +12,12 @@ pipeline {
         }
         stage ('clone') {
             steps {
-                git url: 'https://github.com/virtualmail-rgb/spring-petclinic.git', branch: 'main'
+                git url: 'https://github.com/virtualmail-rgb/spring-petclinic.git', branch: "${params.Build-on-Branch}"
             }
         }
         stage ('build') {
             steps {
-                sh 'mvn package'
+                sh "mvn ${params.Build method}"
             }
         }
     }
