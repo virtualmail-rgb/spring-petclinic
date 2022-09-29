@@ -2,7 +2,7 @@ pipeline {
     agent { label 'free-script-11' }
     parameters {
         choice(name: 'Build-on-Branch', choices: ['main','maseter'], description: 'descrip for what is the branch')
-        string(name: 'Build method', defaultvalue: 'package', description: 'type of build or package')
+        string(name: 'Build method', defaultValue: 'package', description: 'type of build or package')
     }
     stages {
         stage ('mvn version') {
