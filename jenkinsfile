@@ -5,7 +5,7 @@ pipeline {
         string(name: 'BUILD_METHOD', defaultvalue: 'package', description: 'type of build or package')
     }
     triggers {
-        pollscm(*****)
+        pollSCM('* * * * *')
     }
     stages {
         stage ('mvn version') {
