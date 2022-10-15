@@ -1,26 +1,39 @@
-pipeline {
-    agent { label 'free-script-11' }
-    parameters {
-        choice(name: 'Build-on-Branch', choices: ['main','master'], description: 'descrip for what is the branch')
-        string(name: 'BUILD_METHOD', defaultvalue: 'package', description: 'type of build or package')
-    }
-    triggers {
-        pollscm(*****)
-    }
-    stages {
-        stage ('mvn version') {
-            steps {
-                sh "mvn --version"
-            }
-        }
+pipeline{
+    agent any
+    stages ('Artifactory configuration') {
         stage ('clone') {
             steps {
-                git url: 'https://github.com/virtualmail-rgb/spring-petclinic.git', branch: "${params.Build-on-Branch}"
+                git branch: 'main', url: 'https://github.com/virtualram-rgb/spring-petclinic.git'
+            }
+            steps {
+                rtServer (
+                    id: "JFROG_ID",
+                    url: "https://vmdevops.jfrog.io/",
+                    credentialsId: "JFROG_CRED_ID"
+                )    
+                rtMavenDeployer (
+                    id: "MAVEN_DEPLOYER",
+                    serverId: "JFROG_ID",
+                    releaseRepo: "virtualram-lib-release-local",
+                    snapshotRepo: "virtualram-lib-snapshot-local"
+                )
             }
         }
-        stage ('build') {
+        stage('Exec Maven') {
             steps {
-                sh "mvn ${params.BUILD_METHOD}"
+                rtMavenRun (
+                    tool: "mvn_set", // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "MAVEN_DEPLOYER"
+                )
+            }
+        }    
+        stage('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                serverId: "JFROG_ID"
+                )
             }
         }
     }
