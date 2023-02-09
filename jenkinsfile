@@ -1,42 +1,42 @@
-pipeline{
-    agent any
-    stages ('Artifactory configuration') {
-        stage ('clone') {
-            steps {
-                git branch: 'main', url: 'https://github.com/virtualram-rgb/spring-petclinic.git'
-            }
-            steps {
-                rtServer (
-                    id: "JFROG_ID",
-                    url: "https://vmdevops.jfrog.io/",
-                    credentialsId: "JFROG_CRED_ID"
-                )    
-                rtMavenDeployer (
-                    id: "MAVEN_DEPLOYER",
-                    serverId: "JFROG_ID",
-                    releaseRepo: "virtualram-lib-release-local",
-                    snapshotRepo: "virtualram-lib-snapshot-local"
-                )
+pipeline {
+    agent { label 'node-1' }
+    triggers {
+        pollscm(' H * * * *')
+    }
+    stages {
+        stage("mail"){
+            steps{
+                mail subject: 'Build Started', 
+                body: 'Build started',
+                to: 'virtualdevops456@gmail.com'
+                git branch: 'main', url: 'https://github.com/virtualmail-rgb/spring-petclinic.git'
             }
         }
-        stage('Exec Maven') {
-            steps {
-                rtMavenRun (
-                    tool: "mvn_set", // Tool name from Jenkins configuration
-                    pom: 'pom.xml',
-                    goals: 'clean install',
-                    deployerId: "MAVEN_DEPLOYER"
-                )
+        stage("build"){
+            steps{
+                sh 'mvn package'
             }
-        }    
-        stage('Publish build info') {
-            steps {
-                rtPublishBuildInfo (
-                serverId: "JFROG_ID"
-                )
+        }
+        stage("archive results"){
+            steps{
+                junit '**/surefire-reports/*.xml'
             }
         }
     }
+    post {
+        always {
+            echo 'Job completed'
+            mail subject: 'Build Completed', 
+                  body: 'Build Completed', 
+                  to: 'qtdevops@gmail.com'
+        }
+        failure {
+            mail subject: 'Build Failed', 
+                  body: 'Build Failed', 
+                  to: 'qtdevops@gmail.com' 
+        }
+        success {
+            junit '**/surefire-reports/*.xml'
+        }
+    }
 }
-
-
