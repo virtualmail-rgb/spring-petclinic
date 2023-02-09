@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'node-1' }
     triggers {
-        pollscm(' H * * * *')
+        pollscm(' * * * * *')
     }
     stages {
         stage("mail"){
