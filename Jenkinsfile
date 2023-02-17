@@ -27,6 +27,11 @@ pipeline {
                 )
             }
         }
+        stage("junit tests") {
+            steps {
+                junit testResults: 'target/surefire-reports/*.xml'
+            }
+        }
         //stage('Publish Build info'){
         //    steps{
         //        rtPublishBuildinfo(
