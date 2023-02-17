@@ -27,17 +27,10 @@ pipeline {
                 )
             }
         }
-        stage("junit tests") {
+        stage('junit test reports'){
             steps {
                 junit testResults: 'target/surefire-reports/*.xml'
             }
-        }
-        //stage('Publish Build info'){
-        //    steps{
-        //        rtPublishBuildinfo(
-        //            serverId:"jfrog_instance"
-        //        )
-        //    }
         }
     }
 }
