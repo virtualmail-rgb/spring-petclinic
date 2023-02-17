@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ('git') {
             steps {
-                git branch: 'main', url: 'git@github.com:virtualmail-rgb/spring-petclinic.git'
+                git branch: 'main', url: 'https://github.com/virtualmail-rgb/spring-petclinic.git'
             }
         }
         stage ('Artifactory Configuration'){
