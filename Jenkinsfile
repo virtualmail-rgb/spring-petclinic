@@ -27,12 +27,12 @@ pipeline {
                 )
             }
         }
-        stage('Publish Build info'){
-            steps{
-                rtPublishBuildinfo(
-                    serverId:"jfrog_instance"
-                )
-            }
+        //stage('Publish Build info'){
+        //    steps{
+        //        rtPublishBuildinfo(
+        //            serverId:"jfrog_instance"
+        //        )
+        //    }
         }
     }
 }
