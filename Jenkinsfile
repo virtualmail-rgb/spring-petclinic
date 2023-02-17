@@ -10,7 +10,7 @@ pipeline {
             steps {
                 rtMavenDeployer (
                     id: 'MAVEN_DEPLOYER',
-                    serverId: 'ARTIFACTORY_SERVER',
+                    serverId: 'jfrog_instance',
                     releaseRepo: 'qtdevops-libs-release-local',
                     snapshotRepo: 'qtdevops-libs-snapshot-local'
                 )
