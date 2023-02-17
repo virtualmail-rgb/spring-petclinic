@@ -1,42 +1,43 @@
 pipeline {
-    agent { label 'NODE_1' }
-    triggers {
-        pollSCM('* * * * *')
-    }
+    agent any
     stages {
-        stage("mail"){
-            steps{
-                mail subject: 'Build Started', 
-                body: 'Build started',
-                to: 'virtualdevops456@gmail.com'
-                git branch: 'main', url: 'https://github.com/virtualmail-rgb/spring-petclinic.git'
+        stage ('git') {
+            steps {
+                git branch: 'main', url: 'git@github.com:virtualmail-rgb/spring-petclinic.git'
             }
         }
-        stage("build"){
-            steps{
-                sh 'mvn package'
+        stage ('Artifactory Configuration'){
+            steps {
+                rtserver (
+                    id: "jfrog_instance",
+                    url: "https://vardevops123.jfrog.io/",
+                    credentialsId: 'JFROG_CRED'
+                )
+                rtMavenDeployer (
+                    id: 'MAVEN_DEPLOYER',
+                    serverId: 'ARTIFACTORY_SERVER',
+                    releaseRepo: 'qtdevops-libs-release-local',
+                    snapshotRepo: 'qtdevops-libs-snapshot-local'
+                )
+
             }
         }
-        stage("archive results"){
-            steps{
-                junit '**/surefire-reports/*.xml'
+        stage('Execute Maven'){
+            steps {
+                rtMavenRun (
+                    tool: 'MVN',
+                    pom: 'pom.xml',
+                    goals: 'clean Install',
+                    deployerId: "MAVEN_DEPLOYER"
+                )
             }
         }
-    }
-    post {
-        always {
-            echo 'Job completed'
-            mail subject: 'Build Completed', 
-                  body: 'Build Completed', 
-                  to: 'qtdevops@gmail.com'
-        }
-        failure {
-            mail subject: 'Build Failed', 
-                  body: 'Build Failed', 
-                  to: 'qtdevops@gmail.com' 
-        }
-        success {
-            junit '**/surefire-reports/*.xml'
+        stage('Publish Build info'){
+            steps{
+                rtPublishBuildinfo(
+                    serverId:"jfrog_instance"
+                )
+            }
         }
     }
 }
