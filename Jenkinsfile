@@ -19,7 +19,7 @@ pipeline{
                     id: "MAVEN_DEPLOYER",
                     serverId: 'jfrog_instance',
                     releaseRepo: 'qtdevops-libs-release-local',
-                    snapshortRepo: 'qtdevops-libs-snapshot-local'
+                    snapshotRepo: 'qtdevops-libs-snapshot-local'
                 )
             }
         }
