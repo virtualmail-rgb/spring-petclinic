@@ -45,20 +45,20 @@ pipeline{
     post {
             always {
                 echo "job done or build copmleted"
-                mail subject: 'Build completed',
-                    body: 'build status',
+                mail subject: 'Build completed for Jenkins JOB $env.JOB_NAME',
+                    body: 'for Jenkins JOB $env.JOB_NAME \n Click Here: $env.JOB_URL',
                     to: "virtualdevops@gmail.com"
             }
             success {
                 echo "Build is successfull"
-                mail subject: 'Build completed',
-                    body: 'build status',
+                mail subject: 'for Jenkins JOB $env.JOB_NAME with Build ID $env.BUILD_ID',
+                    body: 'for Jenkins JOB $env.JOB_NAME',
                     to: "virtualdevops@gmail.com"
             }
             failure {
                 echo "Build is failed"
-                mail subject: 'Build is failed',
-                    body: 'build status',
+                mail subject: 'Build is failed Jenkins JOB $env.JOB_NAME with Build ID $env.BUILD_ID',
+                    body: 'Jenkins job is failed JOB $env.JOB_NAME',
                     to: "virtualdevops@gmail.com"
             }
     }
