@@ -29,14 +29,14 @@ pipeline{
                     timeout(time: 1, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true
               }
-                    deployerId: "MAVEN_DEPLOYER"
                 )
             }
         }
         stage('Publishtheartifacts'){
             steps{
                 rtPublishBuildInfo (
-                    serverId: 'jfrog_instance'
+                    serverId: 'jfrog_instance',
+                    deployerId: "MAVEN_DEPLOYER"
                 )
             }
         }
