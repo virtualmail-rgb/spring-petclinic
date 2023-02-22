@@ -26,7 +26,7 @@ pipeline{
         stage('execmaven'){
             steps{
                 rtmavenRun (
-                //    timeout(time: 1, unit: 'HOURS') {
+                    timeout(time: 0, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true
               }
                 )
