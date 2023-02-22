@@ -1,5 +1,5 @@
 pipeline{
-    agents any
+    agent any
     stages{
         stage('Git clone'){
             steps{
@@ -19,7 +19,7 @@ pipeline{
                     id: "MAVEN_DEPLOYER",
                     serverId: 'jfrog_instance',
                     releaseRepo: 'qtdevops-libs-release-local',
-                    snapshorRepo: 'qtdevops-libs-snapshot-local'
+                    snapshortRepo: 'qtdevops-libs-snapshot-local'
                 )
             }
         }
@@ -35,8 +35,7 @@ pipeline{
         stage('Publishtheartifacts'){
             steps{
                 rtPublishBuildInfo (
-                    serverId: 'jfrog_instance',
-                    deployerId: "MAVEN_DEPLOYER"
+                    serverId: 'jfrog_instance'
                 )
             }
         }
