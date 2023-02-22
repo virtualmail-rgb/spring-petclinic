@@ -29,8 +29,6 @@ pipeline{
                     timeout(time: 1, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true
               }
-                    pom: 'pom.xml',
-                    goals: 'deploy',
                     deployerId: "MAVEN_DEPLOYER"
                 )
             }
