@@ -42,24 +42,24 @@ pipeline{
             }
         }
     }
-    post{
-            always{
-                echo "job done or build copmleted",
+    post {
+            always {
+                echo "job done or build copmleted"
                 mail subject: 'Build completed',
                     body: 'build status',
                     to: "virtualdevops@gmail.com"
             }
-            success{
-                echo "Build is successfull",
+            success {
+                echo "Build is successfull"
                 mail subject: 'Build completed',
                     body: 'build status',
                     to: "virtualdevops@gmail.com"
             }
-            failure{
-                echo "Build is failed",
+            failure {
+                echo "Build is failed"
                 mail subject: 'Build is failed',
                     body: 'build status',
                     to: "virtualdevops@gmail.com"
             }
-        }
+    }
 }
