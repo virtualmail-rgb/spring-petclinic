@@ -26,9 +26,10 @@ pipeline{
         stage('execmaven'){
             steps{
                 rtmavenRun (
-                    timeout(time: 0, unit: 'HOURS') {
-                waitForQualityGate abortPipeline: true
-              }
+                    tool: 'MVN',
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "MAVEN_DEPLOYER"
                 )
             }
         }
