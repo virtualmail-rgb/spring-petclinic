@@ -23,16 +23,6 @@ pipeline{
                 )
             }
         }
-        stage('execmaven'){
-            steps{
-                rtmavenRun (
-                    tool: 'MVN',
-                    pom: 'pom.xml',
-                    goals: 'deploy',
-                    deployerId: "MAVEN_DEPLOYER"
-                )
-            }
-        }
         stage('Publishtheartifacts'){
             steps{
                 rtPublishBuildInfo (
